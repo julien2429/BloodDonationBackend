@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Appointment;
 import com.example.demo.repository.AppointmentRepository;
+import com.example.demo.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,10 @@ public class AppointmentController {
 
     @Autowired
     AppointmentRepository repo;
+
+    @Autowired
+    PersonRepository personRepository;
+
 
     @GetMapping("/appointment")
     public List<Appointment> getAllAppointments()
@@ -43,10 +48,14 @@ public class AppointmentController {
         System.out.println(nou2);
         return repo.getAppointmentsByDateOfAppointment(nou2);}
 
-    @PostMapping("/appointment/add")
-    public void createPerson( @RequestBody Appointment Appointment)
+    @PostMapping("/appointment/add/{personID}")
+    public void createAppointment( @RequestBody Appointment appointment,@PathVariable int personID)
     {
-        repo.save(Appointment);
+        PersonRepository repo_2 = personRepository;
+        Appointment nou = appointment;
+        nou.setPerson( repo_2.findByIdUser(personID) );
+        nou.setReport(null);
+        repo.save(appointment);
     }
 
 //    @PutMapping("/person/update/{id}")
