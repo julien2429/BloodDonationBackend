@@ -36,7 +36,7 @@ public class Appointment {
         return person;
     }
 
-    @JsonBackReference(value="reportApoint")
+    @JsonBackReference(value="reportAppoint")
     public Report getReport() {
         return report;
     }

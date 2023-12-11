@@ -10,4 +10,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     List<Appointment> getAppointmentsByDateOfAppointment(Date dateOfAppointment);
 
+
 }

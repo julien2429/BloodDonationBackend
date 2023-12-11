@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.sql.Timestamp;
 @RestController
@@ -47,6 +48,41 @@ public class AppointmentController {
         Timestamp nou2= new Timestamp(year-1900,month-1,day,hour,minute,0,0);
         System.out.println(nou2);
         return repo.getAppointmentsByDateOfAppointment(nou2);}
+
+    @GetMapping("/appointment/date/today/{year}/{month}/{day}")
+    public List<Appointment> getAppointmentsByDateOfDay(@PathVariable int year,@PathVariable int month,@PathVariable int day) {
+        java.sql.Date fake_date= new java.sql.Date(year-1900,month-1,day);
+        List<Appointment> nou= repo.findAll();
+        List<Appointment> answer = new ArrayList<>();
+        for (Appointment e:nou) {
+            if(e.getDateOfAppointment().toString().substring(0, 10).equals(fake_date.toString()))
+            {
+                answer.add(e);
+            }
+        }
+        return answer;
+    }
+
+    @GetMapping("/appointment/notfilled")
+    public List<Appointment> getAppointmentNotfilled()
+    {
+         List<Appointment> nou= repo.findAll();
+
+        List<Appointment> answer = new ArrayList<>();
+
+        for (Appointment e:nou) {
+            if(e.getReport()==null)
+            {
+                answer.add(e);
+            }
+        }
+        return answer;
+
+    }
+
+
+
+
 
     @PostMapping("/appointment/add/{personID}")
     public void createAppointment( @RequestBody Appointment appointment,@PathVariable int personID)

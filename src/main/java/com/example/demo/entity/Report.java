@@ -42,7 +42,7 @@ public class Report {
         return patient;
     }
 
-    @JsonManagedReference(value="reportApoint")
+    @JsonManagedReference(value="reportAppoint")
     public Appointment getAppointment() {return appointment; }
 
 

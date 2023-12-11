@@ -43,6 +43,7 @@ public class Person {
 
 
     @OneToMany(mappedBy = "person")
+
     private List<Appointment> appointments;
 
 
