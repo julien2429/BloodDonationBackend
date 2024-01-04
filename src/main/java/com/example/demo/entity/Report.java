@@ -42,9 +42,14 @@ public class Report {
         return patient;
     }
 
+    public void setPatient(Person person) {
+        this.patient = person;
+    }
     @JsonManagedReference(value="reportAppoint")
     public Appointment getAppointment() {return appointment; }
-
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
 
     public Report() {
 

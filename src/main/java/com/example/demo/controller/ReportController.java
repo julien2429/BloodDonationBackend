@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Appointment;
 import com.example.demo.entity.Person;
 import com.example.demo.entity.Report;
 import com.example.demo.repository.ReportRepository;
@@ -7,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class ReportController {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     ReportRepository repo;
+    @Autowired
+    AppointmentController repo2;
+    @Autowired
+    PersonController repo3;
 
     @GetMapping("/report")
     public List<Report> getAllReports()
@@ -27,9 +33,16 @@ public class ReportController {
     }
 
 
-    @PostMapping("/report/add")
-    public void createPerson( @RequestBody Report report)
+    @PostMapping("/report/add/{idAppointment}")
+    public void createReport( @RequestBody Report report,@PathVariable int idAppointment)
     {
+        report.setIdAppointment(idAppointment);
+        Appointment app = repo2.getAppointmentByID(idAppointment);
+        Person pers = app.getPerson();
+        app.setReport(report);
+        report.setPatient(pers);
+        report.setAppointment(app);
+
         repo.save(report);
     }
 
